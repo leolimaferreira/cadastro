@@ -37,7 +37,7 @@ public class PessoaController implements GenericController {
         pessoaSalvar.setCelular(pessoa.getCelular());
 
         pessoaService.save(pessoaSalvar);
-        var url = gerarHeaderLocation(pessoa.getId());
+        var url = gerarHeaderLocation(pessoaSalvar.getId());
         return ResponseEntity.created(url).build();
     }
 

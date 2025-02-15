@@ -1,23 +1,24 @@
 package br.com.cadastro.service;
 
-import br.com.cadastro.exceptions.RegistroDuplicadoException;
 import br.com.cadastro.model.Pessoa;
 import br.com.cadastro.service.repository.PessoaRepository;
 import br.com.cadastro.validator.CpfValidator;
+import br.com.cadastro.validator.EmailValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PessoaService {
 
     private final PessoaRepository pessoaRepository;
     private final CpfValidator cpfValidator;
+    private final EmailValidator emailValidator;
 
-    public PessoaService(PessoaRepository pessoaRepository, CpfValidator cpfValidator) {
+    public PessoaService(PessoaRepository pessoaRepository, CpfValidator cpfValidator, EmailValidator emailValidator) {
         this.pessoaRepository = pessoaRepository;
         this.cpfValidator = cpfValidator;
+        this.emailValidator = emailValidator;
     }
 
     public List<Pessoa> findAll() {
@@ -26,8 +27,8 @@ public class PessoaService {
 
     public Pessoa save(Pessoa pessoa) {
         cpfValidator.validar(pessoa);
+        emailValidator.validar(pessoa);
         return pessoaRepository.save(pessoa);
     }
 
-    public Optional<Pessoa> findByCpf(String cpf) {return this.pessoaRepository.findByCpf(cpf);}
 }
